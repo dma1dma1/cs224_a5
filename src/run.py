@@ -133,7 +133,8 @@ elif args.function == 'finetune':
 
     # Goal 1
     if args.reading_params_path:
-        model.load_state_dict(torch.load(args.reading_params_path, map_location=device))
+        model.load_state_dict(torch.load(args.reading_params_path))
+        model.to(device)
         tconf = trainer.TrainerConfig(
             max_epochs=10,
             batch_size=256,
@@ -143,8 +144,6 @@ elif args.function == 'finetune':
             final_tokens=200*len(pretrain_dataset)*block_size,
             num_workers=4,
         )
-
-        pass
     else:
         tconf = trainer.TrainerConfig(
             max_epochs=75,

@@ -180,7 +180,7 @@ class CharCorruptionDataset(Dataset):
         pref_idx = random.randint(1, trunc_len - masked - 1)
         prefix = trunc_document[:pref_idx]
         masked_content = trunc_document[pref_idx:pref_idx + masked]
-        suffix = trunc_document[pref_idx + masked]
+        suffix = trunc_document[pref_idx + masked:]
 
         # 3
         masked_string = prefix + self.MASK_CHAR + suffix + self.MASK_CHAR + masked_content + self.MASK_CHAR
