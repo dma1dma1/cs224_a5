@@ -43,6 +43,7 @@ device = torch.cuda.current_device() if torch.cuda.is_available() else 'cpu'
 # vocab from the pretraining corpus.)
 block_size = 128
 text = open(args.pretrain_corpus_path).read()
+text = text.rstrip('\n')
 pretrain_dataset = dataset.CharCorruptionDataset(text, block_size)
 
 # We don't suggest you change these hyperparameters, as they're known to work.
@@ -132,8 +133,7 @@ elif args.function == 'finetune':
 
     # Goal 1
     if args.reading_params_path:
-        model.load_state_dict(torch.load(args.reading_params_path))
-        model.to(device)
+        model.load_state_dict(torch.load(args.reading_params_path, map_location=device))
         tconf = trainer.TrainerConfig(
             max_epochs=10,
             batch_size=256,
